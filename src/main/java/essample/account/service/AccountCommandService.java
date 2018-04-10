@@ -5,18 +5,22 @@ import essample.account.command.CommandType;
 import essample.account.event.Account;
 import essample.account.event.AccountEvent;
 import essample.account.event.AccountEventService;
+import essample.account.event.AccountEventType;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class AccountService {
+public class AccountCommandService {
 
     private AccountQueryService queryService;
     private AccountEventService eventService;
     private AccountEventRepository eventRepository;
 
-    public AccountService(AccountQueryService queryService, AccountEventService eventService, AccountEventRepository eventRepository) {
+    public AccountCommandService(AccountQueryService queryService,
+                                 AccountEventService eventService,
+                                 AccountEventRepository eventRepository) {
         this.queryService = queryService;
         this.eventService = eventService;
         this.eventRepository = eventRepository;
@@ -44,6 +48,7 @@ public class AccountService {
         return accountEvents;
     }
 
+    @Transactional
     public List<AccountEvent> withdrawAccount(String accountId, Long amount) {
         Account account = queryService.getAccount(accountId);
 
@@ -51,6 +56,11 @@ public class AccountService {
             new AccountCommand(CommandType.WITHDRAW, amount);
 
         List<AccountEvent> accountEvents = eventService.decide(command, account);
+
+        // events and state changes are decoupled
+        accountEvents.stream()
+                     .filter(e -> e.getEventType() == AccountEventType.ALERT_MAIL_SENT)
+                     .forEach(e -> System.out.println(e.getEventType() + " : " + e.getEntityId()));
 
         eventRepository.saveAll(accountEvents);
         return accountEvents;
