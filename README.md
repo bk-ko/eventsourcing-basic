@@ -108,7 +108,7 @@ kafka 와 같은 disk 저장이 되는 Message queue 와 너무 어울리는 것
 - schema evolution 에 대한 고려...
 - side effect 관리
 
-무조건 적용하기 보다는 영리하게 사용해야하면 좋을것 같다, 
+무조건 적용하기 보다는 영리하게 사용하면 좋을것 같다, 
 
 > **[Spring Statemachine]**(https://projects.spring.io/spring-statemachine/) 
 > Microservice 에서 saga와 같이 state 관리를 위해서 많이 언급되는데,
