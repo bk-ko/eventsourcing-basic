@@ -110,10 +110,6 @@ kafka 와 같은 disk 저장이 되는 Message queue 와 너무 어울리는 것
 
 무조건 적용하기 보다는 영리하게 사용하면 좋을것 같다, 
 
-> **[Spring Statemachine]**(https://projects.spring.io/spring-statemachine/) 
-> Microservice 에서 saga와 같이 state 관리를 위해서 많이 언급되는데,
-> statemachine을 매번 조회 하는게 너무 무겁다는 생각이 들었고, 본연의 복잡함(?) 때문에 성능도 안나왔던 기억이... 
-
 ### 참고
->[CQRS journey -Microsoft](https://msdn.microsoft.com/en-us/library/jj554200.aspx)
+>[CQRS journey -Microsoft](https://msdn.microsoft.com/en-us/library/jj554200.aspx)  
 >[Microservices Patterns](https://www.amazon.com/Microservice-Patterns-Chris-Richardson/dp/1617294543)
