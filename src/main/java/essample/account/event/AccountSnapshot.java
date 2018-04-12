@@ -20,7 +20,7 @@ public class AccountSnapshot {
     private int snapshotVersion;
 
     @Column(name = "account_balance")
-    private Long accountBalance = 0L;
+    private long accountBalance = 0;
 
     public AccountSnapshot() {
     }
@@ -61,7 +61,7 @@ public class AccountSnapshot {
         private String entityId;
         private int version;
         private int snapshotVersion;
-        private Long accountBalance = 0L;
+        private long accountBalance = 0;
 
         private Builder() {
         }
@@ -90,7 +90,7 @@ public class AccountSnapshot {
             return this;
         }
 
-        public Builder accountBalance(Long accountBalance) {
+        public Builder accountBalance(long accountBalance) {
             this.accountBalance = accountBalance;
             return this;
         }
