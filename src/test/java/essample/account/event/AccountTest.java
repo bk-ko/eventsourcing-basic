@@ -44,7 +44,7 @@ public class AccountTest {
 
         account.apply(account, createdEvent);
 
-        assertThat(account.getVersion()).isEqualTo(0);
+        assertThat(account.getVersion()).isEqualTo(1);
         assertThat(account.getAccountBalance()).isEqualTo(0);
     }
 

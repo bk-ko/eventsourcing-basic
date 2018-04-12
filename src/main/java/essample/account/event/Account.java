@@ -39,13 +39,10 @@ public class Account {
     }
 
     private Account initialState(Account account) {
-        return Builder
-            .anAccount()
-            .id(account.id)
-            .accountBalance(0L)
-            .version(1)
-            .snapshotVersion(0)
-            .build();
+        this.id = account.id;
+        this.accountBalance += 0;
+        this.version = 1;
+        return this;
     }
 
     private Account deposit(Long payload) {
@@ -120,7 +117,7 @@ public class Account {
             '}';
     }
 
-    public boolean willBalanceUnderZero(long payload) {
+    public boolean needToMailSend(long payload) {
         return accountBalance - payload <= 0;
     }
 

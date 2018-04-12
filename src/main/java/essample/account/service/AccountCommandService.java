@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AccountCommandService {
@@ -26,14 +27,16 @@ public class AccountCommandService {
         this.eventRepository = eventRepository;
     }
 
-    public AccountEvent createAccount() {
+    public List<AccountEvent> createAccount() {
         AccountCommand command =
             new AccountCommand(CommandType.CREATE, 0);
 
-        AccountEvent accountEvent = eventService.decide(command, null).get(0);
+        Account newAccount = new Account("account-" + UUID.randomUUID().toString().substring(0, 8));
 
-        eventRepository.save(accountEvent);
-        return accountEvent;
+        List<AccountEvent> accountEvents = eventService.decide(command, newAccount);
+
+        eventRepository.saveAll(accountEvents);
+        return accountEvents;
     }
 
     public List<AccountEvent> depositAccount(String accountId, Long amount) {

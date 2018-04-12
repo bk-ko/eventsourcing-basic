@@ -1,7 +1,6 @@
 package essample.account.service;
 
 import essample.account.event.Account;
-import essample.account.event.AccountEvent;
 import essample.account.event.AccountEventService;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,14 +33,6 @@ public class AccountCommandServiceTest {
 
         Mockito.when(queryService.getAccount("account-test"))
                .thenReturn(testAccount);
-
-//        Mockito.when(commandService.createAccount())
-//               .thenReturn(testAccount);
-    }
-
-    //@Test
-    public void createAccount() {
-        AccountEvent accountEvent = commandService.createAccount();
     }
 
     @Test

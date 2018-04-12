@@ -19,13 +19,15 @@ public class AccountEventService {
 
     public List<AccountEvent> decide(AccountCommand command, Account account) {
 
-        if (account != null && account.needSnapShot()) {
+        if (account == null) {
+            throw new IllegalStateException("account needed");
+        } else if (account.needSnapShot()) {
             createSnapShot(account);
         }
 
         switch (command.getCommandType()) {
             case CREATE:
-                return decideCreateCommand();
+                return decideCreateCommand(command, account);
             case DEPOSIT:
                 return decideDepositCommand(command, account);
             case WITHDRAW:
@@ -35,15 +37,15 @@ public class AccountEventService {
         }
     }
 
-    private List<AccountEvent> decideCreateCommand() {
+    private List<AccountEvent> decideCreateCommand(AccountCommand command, Account account) {
         return Collections.singletonList(
             AccountEvent.Builder
                 .anAccountEvent()
                 .eventId(UUID.randomUUID().toString().substring(0, 8))
-                .entityId("account-" + UUID.randomUUID().toString().substring(0, 8))
+                .entityId(account.getId())
                 .eventType(AccountEventType.CREATED)
-                .payload(0L)
-                .version(0)
+                .payload(command.getPayload())
+                .version(1)
                 .snapshotVersion(0)
                 .timestamp(new Date())
                 .build());
@@ -54,7 +56,7 @@ public class AccountEventService {
         List<AccountEvent> accountEvents = new ArrayList<>();
         int version = account.getVersion();
 
-        if (account.willBalanceUnderZero(command.getPayload())) {
+        if (account.needToMailSend(command.getPayload())) {
             version += 1;
             accountEvents.add(AccountEvent.Builder
                 .anAccountEvent()
