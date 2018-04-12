@@ -9,10 +9,10 @@
 
 - **EventSourcing 과 Command Sourcing 의 차이점**
 - **event apply 와 snapshot, replay 구현**
-- **command -> aggregate (state) 적용이 까지 cycle** 
+- **command -> aggregate (state) 적용 까지 cycle** 
 - **자연스러운 CQRS**
 
-Microservices 나 Event Driven Architecture 에서 주로 언급되다 보니, 
+Microservices 나 Event Driven Architecture 에서 주로 언급되다 보니,  
 생각이 장황해져서 계좌(account) 생성, 입금(deposit), 출금(withdraw) 라는 아주 간단한 예제로 구현해봤다.
 
 ## *apply* function
@@ -21,7 +21,8 @@ Microservices 나 Event Driven Architecture 에서 주로 언급되다 보니,
 
 event sourcing에서 가장 중요한 function 이라고 본다.
 ***event 를 적용한다*** 로 생각하면 간단하지만, 실제로는 생각해야 될게 많다.
-eventsourcing 은 immutable 한 event 들을 통해서 하나의 aggregate 를 얻어내는 것이기 때문에 aggregate 를 조회 할때 마다 state 의 변경(transition) 만 일어나야지, event 의 action 마저 발생해서는 안되기 때문에 조심해야 한다. ( side effect , mail 발송을 생각하면 쉽다.)
+eventsourcing 은 immutable 한 event 들을 통해서 하나의 aggregate 를 얻어내는 것이기 때문에 aggregate 를 조회 할때 마다 state 의 변경(transition) 만 일어나야지,  
+event 의 action 마저 발생해서는 안되기 때문에 조심해야 한다. ( sideeffect , mail 발송을 생각하면 쉽다.)
 
 ``` java
 public Account apply(Account account, AccountEvent event) {
@@ -43,8 +44,7 @@ public Account apply(Account account, AccountEvent event) {
 ## *replay* & *snapshot*
 update 완료된 상태의 aggregate 를 조회하는 data sourcing 과 달리 eventsourcing 은 event 로부터 현재 상태를 조회해오므로 replay 는 필수 이다.  
 sideeffect 없는 replay 는 얼마든지 상관 없다지만,  event 갯수가 엄청나게 많다면 snapshot 이 꼭 필요하다.  
-
-아무리 많은 event 가 발생하더라도 매 5번의 event 마다 snapshot 을 찍으면 최대 5개의 event 조회만으로 충분히 aggregate 를 구할수 있다.
+성능면에서도 예를 들면, 아무리 많은 event 가 발생하더라도 매 5번의 event 마다 snapshot 을 찍으면 최대 5개의 event 조회만으로 충분히 aggregate 를 구할수 있다.
 
 ``` java
 public Account getAccount(String accountId) {
@@ -57,7 +57,8 @@ public Account getAccount(String accountId) {
 ```
 
 ## *command*,  *decide*
-command는 event를 얻기위해 요청하는 명령 class 라면, decide는 그 command를 실행할지 결정(accept), 검증하고, 필요한  event 목록을 반환하는 function이다.
+command는 event를 얻기위해 요청하는 명령 class 라면,  
+decide는 그 command를 실행할지 결정(accept), 검증하고, 필요한  event 목록을 반환하는 function이다.
 
 ![decide](https://monosnap.com/image/P4bj9LpDSLCXLnwfqPU7ASXLKnEB8q.png)
 
@@ -77,7 +78,8 @@ public List<AccountEvent> depositAccount(String accountId, Long amount) {
 ```
 
 ## CQRS Pattern
-event sourcing  을 하면 command와 query의 작동방식이 확연히 다르기 때문에  [CQRS](https://martinfowler.com/bliki/CQRS.html) pattern 사용이 매우 자연스럽다. 
+event sourcing  을 하면 command와 query의 작동방식이 확연히 다르기 때문에 
+ [CQRS](https://martinfowler.com/bliki/CQRS.html) pattern 사용이 매우 자연스럽다. 
 
 이번 Sample 에서는 간단히 Service level로 분리 했다.
 ``` java
