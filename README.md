@@ -10,15 +10,14 @@
 - **EventSourcing 과 Command Sourcing 의 차이점**
 - **event apply 와 snapshot, replay 구현**
 - **command -> aggregate (state) 적용이 까지 cycle** 
-- **피할수 없는 CQRS**
+- **자연스러운 CQRS**
 
-Microservices 나 Event Driven Architecture 에서 주로 언급되다 보니 생각이 장황해져서 계좌(account) 생성, 입금(deposit), 출금(withdraw) 라는 아주 간단한 예제로 구현했다.
+Microservices 나 Event Driven Architecture 에서 주로 언급되다 보니, 생각이 장황해져서 계좌(account) 생성, 입금(deposit), 출금(withdraw) 라는 아주 간단한 예제로 구현해봤다.
 
 
 ## *apply* function
 
 <blockquote class="twitter-tweet" data-lang="ko"><p lang="en" dir="ltr">want to learn event sourcing? <br><br>f(state, event) =&gt; state</p>&mdash; gregyoung (@gregyoung) <a href="https://twitter.com/gregyoung/status/313358540821647360?ref_src=twsrc%5Etfw">2013년 3월 17일</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 event sourcing에서 가장 중요한 function 이라고 본다.
 ""event 를 적용한다"" 로 생각하면 간단하지만, 실제로는 생각해야 될게 많다.
@@ -90,23 +89,22 @@ public class AccountController {
 ![Alt text](https://monosnap.com/image/TKYQ47DHJFaswZIqtdc01Y1dyiYALa.png)
 
 ## 느낀점
-보통 이야기하는 event sourcing의 장점은
-- event의 특성상 (decoupled, immutable) reliable한 domain 변경
-- hidtory를 온전히 저장;
+보통 이야기하는 event sourcing 의 장점은
+- event 의 특성상 (decoupled, immutable) reliable 한 domain 변경
+- history 를 온전히 저장;
 - O/R 불일치에서 오는 문제 해결
 - 언제든지 replay 할수 있는 자유로운 single source of truth
 
-kafka와 같은 disk저장이 되는 Message queue와 너무 어울리는것 같다.
+kafka 와 같은 disk 저장이 되는 Message queue 와 너무 어울리는것 같다.
 
 하지만 직접 구현해보니,
 - 확실히 over engineering 이 되기 싶다
-- schema evolution에 대한 고려...
+- schema evolution 에 대한 고려...
 - side effect 관리
 
 무조건 적용하기 보다는 영리하게 사용해야하면 좋을것 같다, 
 
-
-> #### [Spring Statemachine](https://projects.spring.io/spring-statemachine/) 
+> **[Spring Statemachine]**(https://projects.spring.io/spring-statemachine/) 
 > Microservice 에서 saga와 같이 state 관리를 위해서 많이 언급되는데,
 > statemachine을 매번 조회 하는게 너무 무겁다는 생각이 들었고, 본연의 복잡함(?) 때문에 성능도 안나왔던 기억이... 
 
