@@ -111,5 +111,5 @@ kafka 와 같은 disk 저장이 되는 Message queue 와 너무 어울리는 것
 무조건 적용하기 보다는 영리하게 사용하면 좋을것 같다, 
 
 ### 참고
->[CQRS journey -Microsoft](https://msdn.microsoft.com/en-us/library/jj554200.aspx)  
+>[CQRS journey - Microsoft](https://msdn.microsoft.com/en-us/library/jj554200.aspx)  
 >[Microservices Patterns](https://www.amazon.com/Microservice-Patterns-Chris-Richardson/dp/1617294543)

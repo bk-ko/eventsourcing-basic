@@ -32,29 +32,28 @@ public class EventSourcingIntegrationTest {
 
         String entityId = createdEvent.get(0).getEntityId();
 
-        commandService.depositAccount(entityId, 500L);
-        commandService.depositAccount(entityId, 500L);
-        commandService.depositAccount(entityId, 500L);
-        commandService.depositAccount(entityId, 500L);
-        commandService.depositAccount(entityId, 500L);
+        commandService.depositAccount(entityId, 500);
+        commandService.depositAccount(entityId, 500);
+        commandService.depositAccount(entityId, 500);
+        commandService.depositAccount(entityId, 500);
+        commandService.depositAccount(entityId, 500);
 
         // maybe create snapshot
-        commandService.withdrawAccount(entityId, 1000L);
-        commandService.withdrawAccount(entityId, 1000L);
+        commandService.withdrawAccount(entityId, 1000);
+        commandService.withdrawAccount(entityId, 1000);
 
         // maybe alert mail sent event (when balance under zero)
-        commandService.withdrawAccount(entityId, 1000L);
+        commandService.withdrawAccount(entityId, 1000);
 
         Account account = queryService.getAccount(entityId);
 
         // CREATED(1), DEPOSITED(5), WITHDRAWN(3), ALERT_MAIL_SENT(1)
         assertThat(account.getVersion()).isEqualTo(10);
 
-        assertThat(account.getAccountBalance()).isEqualTo(-500);
+        assertThat(account.getAccountBalance()).isEqualTo(-1 * 500);
 
         // Create 1 snapshot per 5events
         assertThat(account.getSnapshotVersion()).isEqualTo(1);
     }
-
 
 }

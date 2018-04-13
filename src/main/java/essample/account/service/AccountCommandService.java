@@ -39,7 +39,7 @@ public class AccountCommandService {
         return accountEvents;
     }
 
-    public List<AccountEvent> depositAccount(String accountId, Long amount) {
+    public List<AccountEvent> depositAccount(String accountId, long amount) {
         Account account = queryService.getAccount(accountId);
 
         AccountCommand command =
@@ -52,7 +52,7 @@ public class AccountCommandService {
     }
 
     @Transactional
-    public List<AccountEvent> withdrawAccount(String accountId, Long amount) {
+    public List<AccountEvent> withdrawAccount(String accountId, long amount) {
         Account account = queryService.getAccount(accountId);
 
         AccountCommand command =

@@ -65,28 +65,28 @@ public class AccountEventService {
         if (account.needToMailSend(command.getPayload())) {
             version += 1;
             accountEvents.add(AccountEvent.Builder
-                .anAccountEvent()
-                .eventId(UUID.randomUUID().toString().substring(0, 8))
-                .entityId(account.getId())
-                .eventType(AccountEventType.ALERT_MAIL_SENT)
-                .payload(0L)
-                .version(version)
-                .snapshotVersion(getSnapshotVersion(account))
-                .timestamp(new Date())
-                .build());
+                                  .anAccountEvent()
+                                  .eventId(UUID.randomUUID().toString().substring(0, 8))
+                                  .entityId(account.getId())
+                                  .eventType(AccountEventType.ALERT_MAIL_SENT)
+                                  .payload(0L)
+                                  .version(version)
+                                  .snapshotVersion(getSnapshotVersion(account))
+                                  .timestamp(new Date())
+                                  .build());
         }
 
         version += 1;
         accountEvents.add(AccountEvent.Builder
-            .anAccountEvent()
-            .eventId(UUID.randomUUID().toString().substring(0, 8))
-            .entityId(account.getId())
-            .eventType(AccountEventType.WITHDRAWN)
-            .payload(command.getPayload())
-            .version(version)
-            .snapshotVersion(getSnapshotVersion(account))
-            .timestamp(new Date())
-            .build());
+                              .anAccountEvent()
+                              .eventId(UUID.randomUUID().toString().substring(0, 8))
+                              .entityId(account.getId())
+                              .eventType(AccountEventType.WITHDRAWN)
+                              .payload(command.getPayload())
+                              .version(version)
+                              .snapshotVersion(getSnapshotVersion(account))
+                              .timestamp(new Date())
+                              .build());
 
         return accountEvents;
     }
