@@ -18,4 +18,8 @@ public class AccountCommand {
     public long getPayload() {
         return payload;
     }
+
+    public boolean isValidCommand() {
+        return payload > 0;
+    }
 }

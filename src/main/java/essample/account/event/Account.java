@@ -14,7 +14,7 @@ public class Account {
 
     private int snapshotVersion;
 
-    private Long accountBalance = 0L;
+    private long accountBalance = 0;
 
     private List<AccountEvent> events;
 
@@ -125,7 +125,7 @@ public class Account {
         private String id;
         private int version;
         private int snapshotVersion;
-        private Long accountBalance;
+        private long accountBalance;
         private List<AccountEvent> events;
 
         private Builder() {
@@ -150,7 +150,7 @@ public class Account {
             return this;
         }
 
-        public Builder accountBalance(Long accountBalance) {
+        public Builder accountBalance(long accountBalance) {
             this.accountBalance = accountBalance;
             return this;
         }

@@ -2,7 +2,6 @@ package essample.account.event;
 
 import essample.account.command.AccountCommand;
 import essample.account.service.AccountSnapshotRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,8 +13,11 @@ import java.util.UUID;
 @Service
 public class AccountEventService {
 
-    @Autowired
-    AccountSnapshotRepository snapshotRepository;
+    private final AccountSnapshotRepository snapshotRepository;
+
+    public AccountEventService(AccountSnapshotRepository snapshotRepository) {
+        this.snapshotRepository = snapshotRepository;
+    }
 
     public List<AccountEvent> decide(AccountCommand command, Account account) {
 
@@ -53,6 +55,10 @@ public class AccountEventService {
 
     private List<AccountEvent> decideWithdrawCommand(AccountCommand command, Account account) {
 
+        if (!command.isValidCommand()) {
+            throw new IllegalStateException("command is not valid");
+        }
+
         List<AccountEvent> accountEvents = new ArrayList<>();
         int version = account.getVersion();
 
@@ -86,6 +92,11 @@ public class AccountEventService {
     }
 
     private List<AccountEvent> decideDepositCommand(AccountCommand command, Account account) {
+
+        if (!command.isValidCommand()) {
+            throw new IllegalStateException("command is not valid");
+        }
+
         return Collections.singletonList(
             AccountEvent.Builder
                 .anAccountEvent()
@@ -99,11 +110,11 @@ public class AccountEventService {
                 .build());
     }
 
-    public void createSnapShot(Account account) {
+    private void createSnapShot(Account account) {
         snapshotRepository.save(account.toAccountSnapshot());
     }
 
-    public int getSnapshotVersion(Account account) {
+    private int getSnapshotVersion(Account account) {
 
         int snapshotVersion = account.getSnapshotVersion();
 
